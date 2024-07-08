@@ -12,7 +12,7 @@ import ContactForm from "../Forms/ContactForm";
 const ContactUs = ({ data }) => {
   return (
     <section className="w-full flex flex-wrap bg-white around">
-      <div className="w-full max-w-[500px] bg-[#008064] p-[20px] xl:p-[40px] py-[80px] text-gray-800">
+      <div className="w-full max-w-[500px] bg-[#008064] p-[20px] xl:p-[40px] py-[80px] text-white">
         <h1 className="text-[3.5rem] font-bold">Contact Information</h1>
         <br />
         <div className="text-[1.8rem] font-semibold">
