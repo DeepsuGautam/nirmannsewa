@@ -19,7 +19,7 @@ const LoginForm = () => {
   const submit = async (e) => {
     e?.preventDefault();
     const handled = await loginPost(data);
-    if (handled) return router.push("/admin");
+    if (handled) return router.push("/dashboard");
     return alert("Could not login! Enter correct username and password!");
   };
   return (
