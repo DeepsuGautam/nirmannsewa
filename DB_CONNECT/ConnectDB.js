@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
 const dbURL = process.env.NEXT_APP_DB;
+console.log(dbURL);
 
 const ConnectDB = async () => {
   try {
-    await mongoose.connect(dbURL || "mongodb://127.0.0.1:27017/nirmann");
+    await mongoose.connect(
+      dbURL + "nirmann_sewa");
     mongoose.connection.setMaxListeners(100);
 
     mongoose.connection.on("error", (error) => {
