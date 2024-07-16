@@ -1,11 +1,18 @@
 import mongoose from "mongoose";
 
 const dbURL = process.env.NEXT_APP_DB;
+const dbName = process.env.DB_NAME
+console.log(dbURL);
 
 const ConnectDB = async () => {
   try {
-    await mongoose.connect(dbURL || "mongodb://127.0.0.1:27017/nirmann");
+    await mongoose.connect(`${dbURL}/${dbName}`)
+    // await mongoose.connect(
+    //   dbURL/"nirmann_sewa");
     mongoose.connection.setMaxListeners(100);
+
+
+    await mongoose.connect(`${dbURL}/${dbName}`)
 
     mongoose.connection.on("error", (error) => {
       console.log(error);
