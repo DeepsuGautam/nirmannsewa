@@ -7,7 +7,7 @@ const NewsCard = ({ data }) => {
       style={{ backgroundImage: `url("/api/files/news/${data?.image}")` }}
     >
       <div className="w-full lg:w-[50%] lg:min-w-[700px] lg:h-[450px] h-full md:h-[350px] bg-[#ff863f] bg-opacity-80 p-[4rem]">
-        <div className="w-[100%] md:w-[80%]">
+        <div className="w-[100%] md:w-[80%] text-left">
           <h1
             className="w-full font-bold text-[3.5rem] text-gray-800"
             style={{ textTransform: "uppercase" }}
