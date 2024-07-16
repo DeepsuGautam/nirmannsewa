@@ -3,10 +3,10 @@ import LinkerComp from "./LinkerComp";
 const NewsCard = ({ data }) => {
   return (
     <div
-      className={`w-[100%] h-[550px] lg:h-[450px] flex lg:flex-row flex-col justify-end bg-cover bg-center`}
+      className={`w-[100%] h-[550px] lg:h-[450px] flex lg:flex-row flex-col text-left justify-end bg-cover bg-center`}
       style={{ backgroundImage: `url("/api/files/news/${data?.image}")` }}
     >
-      <div className="w-full lg:w-[50%] lg:min-w-[700px] lg:h-[450px] h-full md:h-[350px] bg-[#ff863f] bg-opacity-80 p-[4rem]">
+      <div className="w-full lg:w-[50%] lg:min-w-[700px] lg:h-[450px] text-left h-full md:h-[350px] bg-[#ff863f] bg-opacity-80 p-[4rem]">
         <div className="w-[100%] md:w-[80%]">
           <h1
             className="w-full font-bold text-[3.5rem] text-gray-800"
