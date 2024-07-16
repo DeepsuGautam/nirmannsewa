@@ -6,7 +6,7 @@ console.log(dbURL);
 
 const ConnectDB = async () => {
   try {
-    await mongoose.connect(`${dbURL}/${dbName}`)
+    await mongoose.connect(`${dbURL}+${dbName}`)
     // await mongoose.connect(
     //   dbURL/"nirmann_sewa");
     mongoose.connection.setMaxListeners(100);
