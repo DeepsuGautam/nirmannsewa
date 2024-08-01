@@ -9,9 +9,6 @@ const page = async () => {
       <CoverMain
         title={"CONTACT US"}
         image={"/api/files/covers/contactCover.jpg"}
-        bg={
-          "linear-gradient( rgba(158, 255, 176, 0.5), rgba(225,225,225,0.25))"
-        }
       />
       {/* Contact main */}
        <SubMainComp/>

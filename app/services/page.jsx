@@ -5,14 +5,11 @@ import ServiceCard from "@/Components/Reusable/ServiceCard";
 import { getLists } from "@/requests/GetDatas";
 import React from "react";
 const page = async () => {
-  const res = await getLists("services", 0, 0);
+  const res = await getLists("services", 0, 0, null);
   const data = await res?.data;
   return (
     <main className="w-full min-h-screen bg-[#fffaf8]">
       <CoverMain
-        bg={
-          "linear-gradient(to bottom,rgba(255, 0, 0, 0.5), rgba(255,255,255,0.5))"
-        }
         image={`/api/files/covers/servCover.jpg`}
         title={"SERVICES WE OFFER"}
       />

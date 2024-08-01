@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import {
   FaFacebook,
@@ -18,33 +19,33 @@ const ContactUs = ({ data }) => {
         <div className="text-[1.8rem] font-semibold">
           <p className="flex my-[30px] flex-wrap">
             <IoMdMail className="m-[5px]" />
-            {data?.email || ""}
+            {data?.email || "#"}
           </p>
           <p className="flex my-[30px] flex-wrap">
             <FaPhoneAlt className="m-[5px]" />
-            {data?.phone || ""}
+            {data?.phone || "#"}
           </p>
           <p className="flex my-[30px] flex-wrap">
             <FaLocationDot className="m-[5px]" />
-            {data?.location || ""}
+            {data?.location || "#"}
           </p>
         </div>
         <div className="text-[30px] font-semibold flex gap-[40px] justify-start mt-[80px]">
           <LinkerComp
             addiStyle={{ width: "fit-content" }}
-            link={data?.facebook || ""}
+            link={data?.facebook || "#"}
           >
             <FaFacebook className="transition-all duration-300 hover:text-white" />
           </LinkerComp>
           <LinkerComp
             addiStyle={{ width: "fit-content" }}
-            link={data?.instagram || ""}
+            link={data?.instagram || "#"}
           >
             <FaInstagram className="transition-all duration-300 hover:text-white" />
           </LinkerComp>
           <LinkerComp
             addiStyle={{ width: "fit-content" }}
-            link={data?.linkedin || ""}
+            link={data?.linkedin || "#"}
           >
             <FaLinkedin className="transition-all duration-300 hover:text-white" />
           </LinkerComp>

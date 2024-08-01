@@ -2,29 +2,35 @@
 
 const DOMAIN = process.env.DOMAIN;
 
-export const getLists = async (type, page, elems) => {
+export const getLists = async (type, page, elems, status) => {
   try {
+    console.log(page, elems)
     const res = await fetch(`${DOMAIN}/api/v1/${type}`, {
       cache: "no-store",
       method: "GET",
       headers: {
-        page,
-        elems,
+        page: page?.toString(),
+        elems: elems?.toString(),
+        status: status ? status?.toString() : "",
       },
     });
+    if (!res.ok) throw new Error("Error While Fetching Data");
     const data = await res.json();
+    
     return {
       error: false,
       data,
     };
   } catch (error) {
-    console.log(error);
+    console.log(error)?.message;
     return {
       error: true,
       msg: error?.message,
+      data: [],
     };
   }
 };
+
 
 export const getSoloData = async (type, id) => {
   try {
@@ -35,6 +41,7 @@ export const getSoloData = async (type, id) => {
         "Content-Type": "application/json",
       },
     });
+    if(!res.ok) throw new Error("Failed To Fetch Data!")
     const data = await res.json();
     return {
       error: false,
@@ -45,6 +52,7 @@ export const getSoloData = async (type, id) => {
     return {
       error: true,
       msg: error?.message,
+      data:{}
     };
   }
 };

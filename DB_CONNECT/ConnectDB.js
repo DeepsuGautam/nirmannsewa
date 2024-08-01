@@ -1,25 +1,35 @@
 import mongoose from "mongoose";
 
-const dbURL = process.env.NEXT_APP_DB;
-const dbName = process.env.DB_NAME
-console.log(dbURL);
+const dbURL = process.env.MONGO_URL || "mongodb+srv://karnorr:karnorr123@nepatronix.6abei4i.mongodb.net/nirmann_sewa";
+
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+}
 
 const ConnectDB = async () => {
-  try {
-    await mongoose.connect(`${dbURL}${dbName}`)
-    mongoose.connection.setMaxListeners(100);
+    if (cached.conn) {
+        return cached.conn;
+    }
 
-    mongoose.connection.on("error", (error) => {
-      console.log(error);
-    });
-    mongoose.connection.once("open", () => {
-      console.log("Connected DB!");
-    });
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(dbURL).then((mongoose) => {
+            mongoose.connection.setMaxListeners(20);
 
-    return mongoose;
-  } catch (error) {
-    console.log(error);
-  }
+            mongoose.connection.on("error", (error) => {
+                console.log(error);
+            });
+
+            mongoose.connection.once("open", () => {
+                console.log("Connected to DB!");
+            });
+
+            return mongoose;
+        });
+    }
+    cached.conn = await cached.promise;
+    return cached.conn;
 };
 
 export default ConnectDB;

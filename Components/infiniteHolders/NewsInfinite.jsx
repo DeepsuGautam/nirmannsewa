@@ -4,33 +4,32 @@ import React, { useEffect, useState } from "react";
 import NewsCard from "../Reusable/NewsCard";
 
 const NewsInfinite = ({ firstData }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(firstData);
   const [index, setIndex] = useState(1);
 
   useEffect(() => {
-    if (firstData && data?.length <= 0) {
-      setData(firstData);
-    }
-    const handleScroll = () => {
-      if (data?.length > 0) {
-        if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
-          const fetchData = async () => {
-            const newData = await getLists(`projects`, index, 4);
-
-            setData((prev) => [...prev, ...newData?.data]);
-            setIndex((prev) => prev + 1);
-          };
-          fetchData();
+    const call = async () => {
+      if (
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight
+      ) {
+        const fetched = await getLists("projects", index, 4, "completed");
+        const newdata = await fetched?.data;
+        if (!fetched.error && newdata?.length > 0) {
+          setData((prev) => [...prev, ...newdata]);
+          setIndex((prev) => prev + 1);
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    if (data?.length > 0) {
+      window.addEventListener("scroll", call);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [firstData, data]);
+      return () => {
+        window.removeEventListener("scroll", call);
+      };
+    }
+  }, [data, index]);
   return (
     <section
       className="w-full flex flex-col text-gray-800 "

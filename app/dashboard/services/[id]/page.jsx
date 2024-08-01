@@ -1,19 +1,17 @@
-import { getSoloData } from "@/requests/GetDatas";
-import dynamic from "next/dynamic";
-import React from "react";
-const DataEditComp = dynamic(
-  () => import("@/AdminComponents/comps/DataEditComp")
-);
+import Editor from '@/AdminComponents/Reusables/Editor'
+import Footer from '@/Components/Footer/Footer'
+import { getSoloData } from '@/requests/GetDatas'
+import React from 'react'
 
-const page = async ({ params }) => {
-  const id = params?.id;
-  const data = await getSoloData("services", id);
+const page = async({params}) => {
 
+  const data = await getSoloData("services", params?.id);
   return (
-    <main className="w-full" style={{ paddingLeft: "70px" }}>
-      <DataEditComp data={data?.data} type={"services"} id={id} />
-    </main>
-  );
-};
+    <section className='w-full min-h-screen'>
+        <Editor oldData={data?.data} type={"services"} request={"put"}/>
+        <Footer/>
+    </section>
+  )
+}
 
-export default page;
+export default page

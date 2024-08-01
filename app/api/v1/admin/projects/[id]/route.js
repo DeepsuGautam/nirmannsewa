@@ -1,53 +1,59 @@
-import ConnectDB from "@/DB_CONNECT/ConnectDB";
 import { Auth } from "@/middleware/auth";
-import project from "@/models/projects";
+import projects from "@/models/projects";
 import { deleteFile } from "@/utility/DeleteFile";
-import { newImageUpload } from "@/utility/UploadFiles";
+import { UploadFiles } from "@/utility/UploadFiles";
 import { NextResponse } from "next/server";
+import { join } from "path";
 
-export const PUT = async (req) => {
-  await ConnectDB();
-  try {
-    const auth = await Auth();
-    if(!auth) throw new Error("Validation Failed")
-    const urlReq = await req.url?.split("/")?.pop();
-    const data = await project.findOne({ _id: urlReq });
-    const form = await req.formData();
-    const newImage = await form.get("newImage");
-    const title = await form.get("title");
-    const description = await form.get("description");
-    const content = await form.get("content");
-    if (newImage && newImage !== "null") {
-      const image = await newImageUpload(newImage, "projects", data?.image);
-      if (!image.error) {
-        data.image = image?.data;
-      }
+export const PUT=async(req)=>{
+    try{
+        const auth = await Auth();
+        if(!auth) throw new Error("Not Authorized")
+        const form=await req.formData();
+        const id =await req?.url?.split("/")?.pop();
+        const updates = await projects.findOne({_id:id});
+        const dataStruct = {
+            title:null,
+            description:null,
+            content:null,
+            image:null,
+            status:null            
+        }
+       for(const key in dataStruct){
+        const data = await form.get(key);
+        if(key==="image" && data instanceof File){
+            const uploaded = await UploadFiles(data, "projects", updates?.image);
+            dataStruct.image = uploaded?.path;
+        }else if(key ==="image" && typeof(data)==="string"){
+            dataStruct.image = data;
+        }else{
+                dataStruct[key] = data
+          
+        }
+       }
+       for(const key in dataStruct){
+        updates[key] = dataStruct?.[key];
+       }
+       await updates.save();
+       return NextResponse.json({msg:"Edited"})
+    }catch(error){
+        console.log(error?.message);
+        return NextResponse.json({error:false}, {status:400})
     }
-    data.title = title;
-    data.description = description;
-    data.content = content;
-    await data.save();
-    return NextResponse.json({ message: "Edited!" });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: error }, { status: 500 });
-  }
-};
+}
+export const DELETE=async(req)=>{
+    try{
+        const auth = await Auth();
+        if(!auth) throw new Error("Not Authorized")
+        const url = await req?.url?.split("/")?.pop();
+        const data =await projects.findOne({_id:url});
+        const filePath = join("projects", data?.image);
+        await deleteFile(filePath);
+        await projects.findOneAndDelete({_id:url});
+        return NextResponse.json({message:"deleted"})
 
-export const DELETE = async (req) => {
-  await ConnectDB();
-  try {
-    const auth = await Auth();
-    if(!auth) throw new Error("Validation Failed")
-    const urlReq = await req.url?.split("/")?.pop();
-    const data = await project.findOne({ _id: urlReq });
-    const image = await data?.image;
-    await deleteFile(`projects/${image}`);
-    await project.deleteOne(data);
-    return NextResponse.json({ msg: "Deleted Successfully!" });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ msg: "Error" }, { status: 500 });
-  }
-};
-
+    }catch(error){
+        console.log(error?.message)
+        return NextResponse.json({error:true},{status:500})
+    }
+}

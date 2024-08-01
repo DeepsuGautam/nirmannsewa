@@ -1,11 +1,11 @@
 import ConnectDB from "@/DB_CONNECT/ConnectDB";
-import unstruct from "@/models/unstructs";
+import about from "@/models/abouts";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
     await ConnectDB();
-    const dataToSend = await unstruct.findOne({ relation: "about" });
+    const dataToSend = await about.find();
     return NextResponse.json(dataToSend);
   } catch (err) {
     console.error(err);

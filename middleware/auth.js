@@ -5,7 +5,7 @@ const domain = process.env.DOMAIN;
 
 export const Auth = async () => {
   try {
-    const header = headers();
+    const header = await headers();
     const token = header.get("authorization")?.split(" ")[1];
     console.log(token);
     if (!token) throw new Error("Cookie not found!");

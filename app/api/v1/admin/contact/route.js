@@ -1,62 +1,45 @@
-import ConnectDB from "@/DB_CONNECT/ConnectDB";
-import { Auth } from "@/middleware/auth";
-import message from "@/models/contact";
-import unstruct from "@/models/unstructs";
-import { predefinedObject } from "@/utility/UploadFiles";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import contact from "@/models/contact";
+import ConnectDB from "@/DB_CONNECT/ConnectDB";
+import { Auth } from "@/middleware/auth";
+import unstruct from "@/models/unstructs";
 
-export const PUT = async (req) => {
+export const GET = async () => {
   try {
     await ConnectDB();
     const auth = await Auth();
-    if(!auth) throw new Error("Validation Failed")
-    const data = await unstruct.findOne({ relation: "contact" });
-    const form = await req.formData();
-    const email = await form.get("email");
-    const phone = await form.get("phone");
-    const location = await form.get("location");
-    const addiEmbeds = await form.get("addiEmbeds");
-    const facebook = await form.get("facebook");
-    const instagram = await form.get("instagram");
-    const twitter = await form.get("twitter");
-    const image = await form.get("newImage");
-    if (image && image !== "null") {
-      await predefinedObject(image, "covers/contactCover.jpg");
-    }
-    data.email = email;
-    data.phone = phone;
-    data.location = location;
-    data.addiEmbeds = addiEmbeds;
-    data.facebook = facebook;
-    data.instagram = instagram;
-    data.twitter = twitter;
-    await data.save();
-    return NextResponse.json({ msg: "Edited Successfully!" });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error }, { status: 500 });
+    if (!auth) throw new Error("Authentication Error!");
+    const page = parseInt(headers().get("page") || "0") ?? 0;
+    const elems = parseInt(headers().get("elems") || "40") ?? 40;
+    const data = await contact
+      .find({})
+      .sort({ _id: -1 })
+      .skip(page * elems)
+      .limit(elems);
+    if (!data) throw new Error("Not Foud Data!");
+    return NextResponse.json(data);
+  } catch (e) {
+    console.log(e);
+    return NextResponse.json({}, { status: 500 });
   }
 };
 
-
-
-export const GET = async () => {
-  await ConnectDB();
+export const POST = async (req) => {
   try {
+    await ConnectDB();
     const auth = await Auth();
-    if(!auth) throw new Error("Validation Failed")
-    const head = headers();
-    const page = parseInt(head.get("page") || "0") || 0;
-    const contactData = await message
-      .find({})
-      .sort({ _id: -1 })
-      .skip(page * 25)
-      .limit(25);
-
-    return NextResponse.json(contactData)
+    if (!auth) throw new Error("Error While Authenticating!");
+    const data = await req.json();
+    if (!data) throw new Error("Could Not Find Data!");
+    const saves = await unstruct.findOne({relation:"contact"});
+    for(const key in data){
+      saves[key] = data?.[key];
+    }
+    await saves.save();
+    return NextResponse.json({ error: false });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ msg: "Error" }, { status: 500 });
+    return NextResponse.json({ error: true }, { status: 500 });
   }
 };

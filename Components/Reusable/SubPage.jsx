@@ -5,14 +5,16 @@ const SubPage = ({ data, type }) => {
   return (
     <div className="w-full p-0">
       <Image
-        width={4000}
-        height={4000}
+        width={2500}
+        height={2500}
+        loading="lazy"
         src={`/api/files/${type}/${data?.image}`}
         alt=""
         style={{
           width: "100%",
           padding: type === "services" ? "100px" : 0,
-          height: "500px",
+          height: type==="teams"?"auto":"500px",
+          maxHeight:"800px",
           background: "#4fb6ff",
           objectFit: type === "services" ? "contain" : "cover",
           objectPosition: "center",
@@ -23,7 +25,7 @@ const SubPage = ({ data, type }) => {
       <section
         className="w-full text-gray-800"
         style={{
-          maxWidth: "1400px",
+          maxWidth: "1000px",
           margin: "0 auto",
           padding: "20px",
           textAlign: "left",
@@ -36,17 +38,22 @@ const SubPage = ({ data, type }) => {
             textTransform: "uppercase",
           }}
         >
-          {data?.title}
+          {data?.title || data?.name}
         </h1>
         <br />
         <br />
-        <p style={{ fontSize: "2.5rem", fontWeight: "500" }}>
+        {(data?.occupation || data?.subtitle) && (
+          <h2 className="text-[18px] pb-[30px] text-blue-500 font semibold">
+            {data?.occupation || data?.subtitle}
+          </h2>
+        )}
+        <p style={{ fontSize: "16px", fontWeight: "500" }}>
           {data?.description}
         </p>
         <br />
         <br />
         <div
-          style={{ fontSize: "1.8rem" }}
+          style={{ fontSize: "16px" }}
           dangerouslySetInnerHTML={{ __html: data?.content || "" }}
         ></div>
       </section>

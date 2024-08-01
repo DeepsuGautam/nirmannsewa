@@ -16,6 +16,19 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  date:{
+    type:Date,
+    required:true,
+    default: function(){
+      const date = new Date().getTime()
+      return date;
+    }
+  },
+  active:{
+    type:Boolean,
+    required:true,
+    default:true
+  }
 });
 
 const message = models?.contact || model("contact", schema);

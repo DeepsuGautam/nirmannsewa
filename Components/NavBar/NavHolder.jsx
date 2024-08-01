@@ -21,7 +21,7 @@ const NavHolder = ({ children }) => {
       className="w-full h-[100px] p-[20px] fixed left-0 right-0 top-0 flex justify-between navbarAnimate"
       style={{
         zIndex: "10",
-        background: bg ? "#f7f1ed" : "transparent",
+        background: bg ? "#edf7ff" : "transparent",
         boxShadow: bg ? "0 0 10px dimgray" : "",
       }}
     >

@@ -16,6 +16,7 @@ const schema = new Schema({
   phone: String,
   location: String,
   addiData: Object,
+  image:String
 });
 
 const unstruct = models?.unstruct || model("unstruct", schema);

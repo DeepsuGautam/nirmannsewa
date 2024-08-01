@@ -1,87 +1,40 @@
-import { existsSync, unlinkSync, writeFileSync } from "fs";
-import { join } from "path";
+import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "fs";
+import { join, extname } from "path";
 import { UniqueGenerator } from "./UniqueName";
 
-export const predefinedObject = async (file, filePath) => {
+export const UploadFiles = async (file, folder, name) => {
   try {
-    const bufferred = Buffer.from(await file.arrayBuffer());
-    console.log(bufferred);
-
-    const dir = join(process.cwd(), "uploads", filePath);
-
-    // Check if the file exists and delete it if it does
-    if (existsSync(dir)) {
-      try {
-        unlinkSync(dir);
-      } catch (error) {
-        throw new Error(`Error deleting existing file: ${error.message}`);
-      }
+    // Make full absolute folder path
+    const folderPath = join(process.cwd(), "uploads", folder);
+    const folderExists = existsSync(folderPath);
+    if (!folderExists) {
+      mkdirSync(folderPath, { recursive: true });
     }
 
-    // Write the new file
-    try {
-      writeFileSync(dir, bufferred);
-    } catch (error) {
-      console.error(`Error writing file: ${error.message}`);
-      throw new Error(error.message);
+    let finalname = name; // Name of file
+
+    if (!name) {
+      const extension = extname(file?.name);
+      const newName = await UniqueGenerator(extension);
+      finalname = newName;
     }
-    return true;
+
+    // Make full file path
+    const fullFilePath = join(folderPath, finalname);
+
+    // Check if file pre-exists and delete old file
+    const preExists = existsSync(fullFilePath);
+    if (preExists) {
+      unlinkSync(fullFilePath);
+    }
+
+    const bufferedFile = Buffer.from(await file.arrayBuffer());
+    // Write file with name
+    writeFileSync(fullFilePath, bufferedFile);
+
+    return { success: true, path: finalname };
   } catch (error) {
-    console.error(`General error: ${error.message}`);
-    return false;
-  }
-};
-
-export const newImageUpload = async (file, filePath, oldFileName) => {
-  try {
-    const bufferred = Buffer.from(await file.arrayBuffer());
-    console.log(filePath, oldFileName)
-
-    const oldDir = join(process.cwd(), "uploads", filePath, oldFileName);
-
-    // Check if the file exists and delete it if it does
-    if (existsSync(oldDir)) {
-      try {
-        unlinkSync(oldDir);
-      } catch (error) {
-        console.log(`Error deleting existing file: ${error.message}`);
-      }
-    }
-    const ext = file?.name?.split(".")?.pop();
-    const name = await UniqueGenerator(ext);
-    const newDir = join(process.cwd(), "uploads", filePath, name);
-    // Write the new file
-    try {
-      writeFileSync(newDir, bufferred);
-    } catch (error) {
-      console.error(`Error writing file: ${error.message}`);
-      throw new Error(error.message);
-    }
-    return {error:false, data:name};
-  } catch (error) {
-    console.error(`General error: ${error.message}`);
-    return {error:true};
-  }
-};
-
-// data
-export const uploadNewImage=async(file, filePath)=>{
-  try {
-    const bufferred = Buffer.from(await file.arrayBuffer());
-
-    const ext = file?.name?.split(".")?.pop();
-    const name = await UniqueGenerator(ext);
-    const newDir = join(process.cwd(), "uploads", filePath, name);
-    // Write the new file
-    try {
-      writeFileSync(newDir, bufferred);
-    } catch (error) {
-      console.error(`Error writing file: ${error.message}`);
-      throw new Error(error.message);
-    }
-    return {error:false, data:name};
-  } catch (error) {
-    console.error(`General error: ${error.message}`);
-    return {error:true};
+    console.log(error?.message);
+    return { success: false, error: error?.message };
   }
 };

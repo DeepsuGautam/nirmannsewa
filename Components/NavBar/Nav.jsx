@@ -3,6 +3,7 @@ import LinkerComp from "../Reusable/LinkerComp";
 import Image from "next/image";
 import NavHolder from "./NavHolder";
 import { HiMenuAlt3 } from "react-icons/hi";
+import { FaAngleDown } from "react-icons/fa";
 
 const Nav = () => {
   return (
@@ -11,101 +12,132 @@ const Nav = () => {
         <Image
           src={`/api/files/logo/logo.png`}
           alt=""
-          width={60}
-          height={60}
-          style={{width:"60px", height:"60px", objectFit:"cover"}}
-          className="rounded-full bg-white border-2 border-[#ff9900]"
+          width={500}
+          height={500}
+          style={{ width: "fit-content", height: "60px"}}
+          className="h-[60px] w-fit bg-transparent"
         />
       </LinkerComp>
-      <div className="min-w-[700px]  text-[16px] overflow-hidden justify-between bg-white rounded-full shadow-xl hidden lg:flex">
+      <div className="min-w-[700px]  text-[16px] justify-between bg-white rounded-full shadow-xl hidden lg:flex">
         <div className="w-[550px] text-gray-800 flex justify-evenly">
-          <LinkerComp link={"/about"} addiStyle={{ width: "fit-content" }}>
-            <button className="h-[60px] w-fit p-[20px] font-semibold hover:text-red-400 transition-all duration-300">
+          <div className="h-[60px] relative menuBtn w-fit p-[20px] font-semibold transition-all duration-300">
+            <button className="flex gap-[10px]">
               About
+              <FaAngleDown style={{ margin: "3px 0" }} />
             </button>
-          </LinkerComp>
+            <div
+              className="w-[300px] absolute bg-transparent menuBox lg py-[30px] "
+              style={{ left: "50%", transform: "translateX(-50%)" }}
+            >
+              <div className="w-full bg-white rounded-lg shadow-2xl flex flex-col">
+                <LinkerComp link={"/teams"} addiStyle={{ width: "100%" }}>
+                  <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                    Our Team
+                  </button>
+                </LinkerComp>
+                <LinkerComp
+                  link={"/company-profile"}
+                  addiStyle={{ width: "100%" }}
+                >
+                  <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                    Company Profile
+                  </button>
+                </LinkerComp>
+              </div>
+            </div>
+          </div>
+          <div className="h-[60px] relative menuBtn w-fit p-[20px] font-semibold transition-all duration-300">
+            <button className="flex gap-[10px]">
+              Projects
+              <FaAngleDown style={{ margin: "3px 0" }} />
+            </button>
+            <div
+              className="w-[300px] absolute bg-transparent menuBox lg py-[30px] "
+              style={{ left: "50%", transform: "translateX(-50%)" }}
+            >
+              <div className="w-full bg-white rounded-lg shadow-2xl flex flex-col">
+                <LinkerComp
+                  link={"/ongoing-projects"}
+                  addiStyle={{ width: "100%" }}
+                >
+                  <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                    Ongoing Projects
+                  </button>
+                </LinkerComp>
+                <LinkerComp
+                  link={"/completed-projects"}
+                  addiStyle={{ width: "100%" }}
+                >
+                  <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                    Completed Projects
+                  </button>
+                </LinkerComp>
+              </div>
+            </div>
+          </div>{" "}
           <LinkerComp link={"/services"} addiStyle={{ width: "fit-content" }}>
-            <button className="h-[60px] p-[20px] font-semibold hover:text-red-400 transition-all duration-300">
+            <button className="h-[60px] p-[20px] font-semibold hover:text-blue-400 transition-all duration-300">
               Services
-            </button>
-          </LinkerComp>
-          <LinkerComp link={"/blogs"} addiStyle={{ width: "fit-content" }}>
-            <button className="h-[60px] p-[20px] font-semibold hover:text-red-400 transition-all duration-300">
-              Blogs
-            </button>
-          </LinkerComp>
-          <LinkerComp link={"/news"} addiStyle={{ width: "fit-content" }}>
-            <button className="h-[60px] p-[20px] font-semibold hover:text-red-400 transition-all duration-300">
-              News
             </button>
           </LinkerComp>
         </div>
         <LinkerComp link={"/contact"} addiStyle={{ width: "150px" }}>
-          <button className="w-[150px] h-[60px] bg-[#ff9900] font-semibold text-white hover:bg-red-400 transition-all duration-300 ">
+          <button
+            className="w-[150px] h-[60px] bg-blue-400 font-semibold text-white hover:bg-blue-500 transition-all duration-300 "
+            style={{ borderRadius: "0 100px 100px 0" }}
+          >
             Contact
           </button>
         </LinkerComp>
       </div>
-      <div className="w-fit h-fit p-[15px] bg-[orange] text-white text-[22px] rounded-full relative menuBtn block lg:hidden">
-        <HiMenuAlt3 />
+
+
+      <div className="h-[60px] relative menuBtn text-[25px] text-center w-fit p-[20px] font-semibold transition-all duration-300 block lg:hidden">
+        <button  className="text-gray-600 hover:text-blue-400 transition-all duration-300">
+          <HiMenuAlt3 />
+        </button>
         <div
-          className="absolute bg-[#f7f1ed] right-[-20px] top-[80px] w-[250px] menuBox text-gray-800 font-semibold"
-          style={{ boxShadow: "0 0 10px gray" }}
+          className="w-[250px] text-[16px] absolute bg-transparent menuBox lg py-[30px] "
+          style={{ right: "0px" }}
         >
-          <LinkerComp
-            link={"/about"}
-            addiStyle={{ width: "100%", fontSize: "18px" }}
-          >
-            <button
-              className="p-[15px] w-full"
-              style={{ borderBottom: "2px solid gray" }}
+          <div className="w-full bg-white rounded-lg shadow-2xl flex flex-col">
+            <LinkerComp link={"/teams"} addiStyle={{ width: "100%" }}>
+              <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                Our Team
+              </button>
+            </LinkerComp>
+            <LinkerComp link={"/company-profile"} addiStyle={{ width: "100%" }}>
+              <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                Company Profile
+              </button>
+            </LinkerComp>
+            <LinkerComp link={"/services"} addiStyle={{ width: "100%" }}>
+              <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                Servies
+              </button>
+            </LinkerComp>
+            <LinkerComp
+              link={"/completed-projects"}
+              addiStyle={{ width: "100%" }}
             >
-              About
-            </button>
-          </LinkerComp>
-          <br />
-          <LinkerComp
-            link={"/services"}
-            addiStyle={{ width: "100%", fontSize: "18px" }}
-          >
-            <button
-              className="p-[15px] w-full"
-              style={{ borderBottom: "2px solid gray" }}
+              <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                Completed Projects
+              </button>
+            </LinkerComp>
+            <LinkerComp
+              link={"/ongoing-projects"}
+              addiStyle={{ width: "100%" }}
             >
-              Services
-            </button>
-          </LinkerComp>
-          <br />
-          <LinkerComp
-            link={"/news"}
-            addiStyle={{ width: "100%", fontSize: "18px" }}
-          >
-            <button
-              className="p-[15px] w-full"
-              style={{ borderBottom: "2px solid gray" }}
-            >
-              News
-            </button>
-          </LinkerComp>
-          <br />
-          <LinkerComp
-            link={"/blogs"}
-            addiStyle={{ width: "100%", fontSize: "18px" }}
-          >
-            <button
-              className="p-[15px] w-full"
-              style={{ borderBottom: "2px solid gray" }}
-            >
-              Blogs
-            </button>
-          </LinkerComp>
-          <br />
-          <LinkerComp
-            link={"/contact"}
-            addiStyle={{ width: "100%", fontSize: "18px" }}
-          >
-            <button className="p-[15px] w-full">Contact</button>
-          </LinkerComp>
+              <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                Ongoing Projects
+              </button>
+            </LinkerComp>
+            <LinkerComp link={"/contact"} addiStyle={{ width: "100%" }}>
+              <button className="w-full px-[30px] py-[20px] transition-all duration-300 hover:text-blue-400">
+                Contact
+              </button>
+            </LinkerComp>
+          </div>
         </div>
       </div>
     </NavHolder>

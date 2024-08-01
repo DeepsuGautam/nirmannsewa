@@ -28,7 +28,7 @@ const NewsHolder = ({ children, length }) => {
   return (
     <section className="relative w-full h-[550px] overflow-hidden lg:h-[450px]">
       <div
-        className=" flex gap-0 p-0 absolute bg-red-400 "
+        className=" flex gap-0 p-0 absolute bg-blue-400 "
         style={{
           width: `${100 * length}%`,
           left: `-${index * 100}%`,
@@ -38,7 +38,7 @@ const NewsHolder = ({ children, length }) => {
         {children}
       </div>
       <button
-        className="absolute w-fit h-fit p-[5px] rounded-full bg-[#ff4e4e] left-[10px] text-[30px] text-white hover:shadow-xl transition-all duration-300"
+        className="absolute w-fit h-fit p-[5px] rounded-full bg-orange-400  left-[10px] text-[30px] text-white hover:shadow-xl hover:bg-orange-500 transition-all duration-300"
         style={{ top: "50%", transform: "translateY(-50%)" }}
         onClick={decreaseIndex}
       >
@@ -46,7 +46,7 @@ const NewsHolder = ({ children, length }) => {
       </button>
 
       <button
-        className="absolute w-fit h-fit p-[5px] rounded-full right-[10px] text-[30px] bg-[#ff4e4e] text-white hover:shadow-xl transition-all duration-300"
+        className="absolute w-fit h-fit p-[5px] rounded-full right-[10px] text-[30px] bg-orange-400  text-white hover:shadow-xl hover:bg-orange-500 transition-all duration-300"
         style={{ top: "50%", transform: "translateY(-50%)" }}
         ref={rightSlide}
         onClick={increaseIndex}

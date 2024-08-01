@@ -7,7 +7,7 @@ const SubMainComp = async () => {
   const data = await res?.data;
   return (
     <section>
-      <ContactUs data={data || {}} />
+      <ContactUs data={data ? data : {}} />
       <div
         className="w-full h-fit"
         dangerouslySetInnerHTML={{ __html: data?.addiEmbeds || "" }}
